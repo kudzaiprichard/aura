@@ -157,11 +157,13 @@ Start in this sequence:
 # The name must match the database in DATABASE_URL (aura_api/.env.example uses `aura_api`).
 createdb aura_api
 
-# 2. Model artefacts — choose ONE of:
-# (a) Use the pre-trained v1_0 in AURA_Model/models/ (clone the repo, run training notebooks
-#     OR pull artefacts if your team has them under git LFS), then point the API at that path:
+# 2. Model artefacts — not in git; pull the published release (stdlib only, no pip needed)
+git clone https://github.com/kudzaiprichard/aura-model.git AURA_Model
+cd AURA_Model && python scripts/fetch_artefacts.py && cd ..
+# Downloads release v1, verifies its SHA-256, extracts into AURA_Model/models/.
 export AURA_MODELS_DIR="/abs/path/to/AURA_Model/models"
-# (b) Or copy AURA_Model/models/* into aura_api/models/ directly.
+# Or extract straight into the API: python scripts/fetch_artefacts.py --dest ../aura_api/models
+# Skip this and the API still boots, but every prediction endpoint returns 503.
 
 # 3. Backend
 cd aura_api
@@ -194,7 +196,7 @@ npm run build:dev                                  # writes manifest.json + conf
 - The extension's `BACKEND_URL` is read from `.env.development`, which is **gitignored** — copy `.env.development.example` and fill it in before the first build. `CLIENT_ID` is per-developer: create your own OAuth client in Google Cloud Console. If your API is on a non-default port, edit that file and re-run `npm run build:dev`. **Production builds enforce HTTPS** — `build.js` aborts otherwise.
 - The API's `EXTENSION_ALLOWLIST_EMAILS` (or domain) gates extension registration. Set it to the Gmail address you'll authenticate with, or registration will return `NOT_WHITELISTED`.
 - The API's `CORS_ORIGINS` must include `http://localhost:3000` for the dashboard to call it. The `EXTENSION_CORS_ORIGINS` default of `https://mail.google.com` covers the extension.
-- If you change the model artefact layout in `AURA_Model`, the API's `inference.models_dir` must point at a directory matching the registry contract (`v<major>_<minor>/production/...` + `pipeline_components/*.pkl`).
+- The model artefacts are distributed as a [GitHub release](https://github.com/kudzaiprichard/aura-model/releases/tag/v1), not tracked in git. `scripts/fetch_artefacts.py` in `AURA_Model` downloads and verifies them. If you change the artefact layout, the API's `inference.models_dir` must still point at a directory matching the registry contract (`v<major>_<minor>/production/...` + `pipeline_components/*.pkl`).
 
 ---
 

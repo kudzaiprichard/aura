@@ -1,0 +1,6 @@
+.env
+node_modules/
+frames-*/
+out-*.gif
+out-*.mp4
+shots/

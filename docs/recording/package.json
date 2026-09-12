@@ -1,0 +1,14 @@
+{
+  "name": "aura-recording",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Headless capture of the AURA dashboard and Chrome extension for README media.",
+  "scripts": {
+    "dashboard": "node flow-dashboard.js",
+    "benchmarks": "node flow-benchmarks.js",
+    "extension": "node flow-extension.js"
+  },
+  "dependencies": {
+    "puppeteer-core": "^24.0.0"
+  }
+}

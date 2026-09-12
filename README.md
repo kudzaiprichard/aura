@@ -20,6 +20,32 @@ The system targets internal IT-security teams who want phishing detection that *
 
 ---
 
+## See it running
+
+The analyst console, end to end - sign-in, the platform overview, the review queue and a
+single REVIEW-zone item, the drift signal with its lifetime confusion matrix, and the
+predictions feed.
+
+![AURA analyst console walkthrough](https://raw.githubusercontent.com/kudzaiprichard/aura_dashboard/main/docs/media/dashboard-walkthrough.gif)
+
+Model governance - the version registry, a labelled benchmark dataset, and a completed
+benchmark run scoring four model versions against each other on a shared holdout.
+
+![AURA benchmarking and model comparison](https://raw.githubusercontent.com/kudzaiprichard/aura_dashboard/main/docs/media/benchmarks-model-comparison.gif)
+
+The Chrome extension popup on a cold start - backend health check, Gmail authentication
+state, and per-install protection counts.
+
+<img src="https://raw.githubusercontent.com/kudzaiprichard/aura-chrome-extension/main/docs/media/extension-popup.gif" alt="AURA Phishing Shield popup" width="380">
+
+> Each clip is hosted by the repository that owns it - [`aura_dashboard`](https://github.com/kudzaiprichard/aura_dashboard/tree/main/docs/media)
+> and [`aura-chrome-extension`](https://github.com/kudzaiprichard/aura-chrome-extension/tree/main/docs/media) -
+> so a re-record updates one place. MP4 versions sit alongside each GIF.
+>
+> Recorded against a local stack at 1440x900. Sender names and addresses in the predictions
+> feed are synthetic and account identifiers are masked; every metric, verdict and model
+> version shown is real. The capture scripts live in [`docs/recording/`](docs/recording).
+
 ## System architecture
 
 ```mermaid

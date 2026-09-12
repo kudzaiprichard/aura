@@ -154,7 +154,8 @@ Start in this sequence:
 ```bash
 # 1. PostgreSQL
 # Use a local instance or docker run -p 5432:5432 -e POSTGRES_PASSWORD=aura postgres:16
-createdb aura
+# The name must match the database in DATABASE_URL (aura_api/.env.example uses `aura_api`).
+createdb aura_api
 
 # 2. Model artefacts — choose ONE of:
 # (a) Use the pre-trained v1_0 in AURA_Model/models/ (clone the repo, run training notebooks
@@ -181,6 +182,7 @@ npm run dev                                        # binds 127.0.0.1:3000
 # 5. Chrome extension  (new terminal)
 cd AURA_Chrome_Extension
 npm install
+cp .env.development.example .env.development       # then set CLIENT_ID (your own OAuth client)
 npm run build:dev                                  # writes manifest.json + config.js
 # In chrome://extensions: enable Developer mode → Load unpacked → select repo root
 # Open https://mail.google.com → click AURA popup → Authenticate with Gmail
@@ -189,7 +191,7 @@ npm run build:dev                                  # writes manifest.json + conf
 ### Cross-repo dependencies you can't skip
 
 - The dashboard's default `NEXT_PUBLIC_API_BASE_URL` is `http://127.0.0.1:8000/api/v1`. If you change the API port, set `NEXT_PUBLIC_API_BASE_URL` in the dashboard environment.
-- The extension's `BACKEND_URL` is read from `.env.development` (checked in for local dev). If your API is on a non-default port, edit that file and re-run `npm run build:dev`. **Production builds enforce HTTPS** — `build.js` aborts otherwise.
+- The extension's `BACKEND_URL` is read from `.env.development`, which is **gitignored** — copy `.env.development.example` and fill it in before the first build. `CLIENT_ID` is per-developer: create your own OAuth client in Google Cloud Console. If your API is on a non-default port, edit that file and re-run `npm run build:dev`. **Production builds enforce HTTPS** — `build.js` aborts otherwise.
 - The API's `EXTENSION_ALLOWLIST_EMAILS` (or domain) gates extension registration. Set it to the Gmail address you'll authenticate with, or registration will return `NOT_WHITELISTED`.
 - The API's `CORS_ORIGINS` must include `http://localhost:3000` for the dashboard to call it. The `EXTENSION_CORS_ORIGINS` default of `https://mail.google.com` covers the extension.
 - If you change the model artefact layout in `AURA_Model`, the API's `inference.models_dir` must point at a directory matching the registry contract (`v<major>_<minor>/production/...` + `pipeline_components/*.pkl`).
